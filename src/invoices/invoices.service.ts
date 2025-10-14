@@ -1,11 +1,22 @@
 import { Injectable } from '@nestjs/common';
-import { EventEmitter2 } from '@nestjs/event-emitter';
+import {
+  ClientProxy,
+  ClientProxyFactory,
+  Transport,
+} from '@nestjs/microservices';
 
 @Injectable()
 export class InvoicesService {
-  constructor(private eventEmitter: EventEmitter2) {}
-
   private invoices = [];
+
+  private notificationsClient: ClientProxy;
+
+  constructor() {
+    this.notificationsClient = ClientProxyFactory.create({
+      transport: Transport.TCP,
+      options: { host: '127.0.0.1', port: 8889 },
+    });
+  }
 
   createInvoice(data: any) {
     const invoice = {
@@ -18,7 +29,7 @@ export class InvoicesService {
     this.invoices.push(invoice);
     console.log('✅ Factura creada:', invoice);
 
-    this.eventEmitter.emit('invoice.created', invoice);
+    this.notificationsClient.emit('invoice.created', invoice);
 
     return { message: 'Factura creada', invoice };
   }
