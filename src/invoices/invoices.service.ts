@@ -1,11 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { MessagePattern } from '@nestjs/microservices';
 
 @Injectable()
 export class InvoicesService {
   private invoices = [];
 
-  @MessagePattern({ cmd: 'create_invoice' })
   createInvoice(data: any) {
     const invoice = {
       id: Date.now(),
@@ -19,12 +17,14 @@ export class InvoicesService {
     return { message: 'Factura creada', invoice };
   }
 
-  @MessagePattern({ cmd: 'list_invoices' })
   listInvoices() {
     return this.invoices;
   }
 
-  @MessagePattern({ cmd: 'get_invoice' })
+  listInvoicesByClient(data: { clientId: number }) {
+    return this.invoices.filter((inv) => inv.clientId === data.clientId);
+  }
+
   getInvoice(data: { id: number }) {
     const invoice = this.invoices.find((inv) => inv.id === data.id);
     if (!invoice) {
