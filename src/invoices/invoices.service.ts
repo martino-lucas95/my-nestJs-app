@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable()
 export class InvoicesService {
+  constructor(private eventEmitter: EventEmitter2) {}
+
   private invoices = [];
 
   createInvoice(data: any) {
@@ -14,6 +17,9 @@ export class InvoicesService {
 
     this.invoices.push(invoice);
     console.log('✅ Factura creada:', invoice);
+
+    this.eventEmitter.emit('invoice.created', invoice);
+
     return { message: 'Factura creada', invoice };
   }
 

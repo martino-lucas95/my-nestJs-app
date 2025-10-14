@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { StatusModule } from './status/status.module';
 import { ClientsModule } from './clients/clients.module';
 import { InvoicesModule } from './invoices/invoices.module';
+import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { InvoicesModule } from './invoices/invoices.module';
     StatusModule,
     ClientsModule,
     InvoicesModule,
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
