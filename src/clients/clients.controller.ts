@@ -11,7 +11,9 @@ import { ClientsService } from './clients.service';
 import { CreateClientDto } from './dtos/create-client.dto';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('clients')
 @Controller('clients')
 export class ClientsController {
   constructor(
