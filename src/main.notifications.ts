@@ -1,17 +1,17 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { NotificationsModule } from './notifications/notifications.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    AppModule,
+    NotificationsModule,
     {
-      transport: Transport.TCP,
-      options: { host: '127.0.0.1', port: 8889 },
+      transport: Transport.REDIS,
+      options: { host: '127.0.0.1', port: 6379 },
     },
   );
 
   await app.listen();
-  console.log('🔔 Microservicio de notificaciones escuchando en puerto 8889');
+  console.log('🔔 Microservicio de notificaciones escuchando en Redis');
 }
 bootstrap();
